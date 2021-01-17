@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "./public/dist",
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
+    "module": "ESNext",
+    "target": "ESNext",
+    "jsx": "preserve",
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "allowJs": true,
+    "downlevelIteration": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "strict": true,
+    "paths": {
+      "@Src/*": [ "src/*" ],
+      "@Utils/*": ["src/utils/*"],
+    }
+  },
+  "include": [ "src/**/*" ],
+}

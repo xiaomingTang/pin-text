@@ -1,0 +1,32 @@
+{
+  "pluginName": "钉住",
+  "version": "0.0.1",
+  "main": "dist/index.html",
+  "preload": "preload/index.js",
+  "description": "将文本固定在桌面上",
+  "author": "王小明",
+  "homepage": "https://github.com/xiaomingTang/pin-text",
+  "logo": "images/logo.png",
+  "platform": [
+    "win32"
+  ],
+  "pluginSetting": {
+    "single": false
+  },
+  "development": {
+    "main": "dist/index.html"
+  },
+  "features": [
+    {
+      "code": "pinText",
+      "explain": "将文本固定在桌面上",
+      "cmds": [
+        {
+          "type": "over",
+          "label": "钉住文本",
+          "minLength": 1
+        }
+      ]
+    }
+  ]
+}
