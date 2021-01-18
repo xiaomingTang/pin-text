@@ -4,7 +4,7 @@ import { CleanWebpackPlugin } from "clean-webpack-plugin"
 import HtmlWebpackPlugin from "html-webpack-plugin"
 import MiniCssExtractPlugin from "mini-css-extract-plugin"
 
-import { localEnvConfig } from "./env.local"
+import { envConfig } from "./env.local"
 import "./update-plugin-json"
 
 import {
@@ -13,7 +13,7 @@ import {
 
 import { resolve, rules } from "./common-loaders"
 
-const definePluginOption = Object.entries(localEnvConfig).reduce((prev, [key, val]) => {
+const definePluginOption = Object.entries(envConfig).reduce((prev, [key, val]) => {
   prev[`process.env.${key}`] = JSON.stringify(val)
   return prev
 }, {})
