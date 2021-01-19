@@ -21,9 +21,8 @@ const definePluginOption = Object.entries(envConfig).reduce((prev, [key, val]) =
 const config: webpack.Configuration = {
   mode: isProduction ? "production" : "development",
   devtool: isProduction ? false : "inline-cheap-module-source-map",
-  stats: {
-    all: false,
-  },
+  // 使输出更精简
+  stats: "errors-warnings",
   entry: {
     // HtmlWebpackPlugin.Options.chunks 需要跟着entry一起改动, 指出该HtmlWebpackPlugin需要的chunks.
     index: ["react-hot-loader/patch", Paths.resolve("src/pages/Index/index.tsx")],
