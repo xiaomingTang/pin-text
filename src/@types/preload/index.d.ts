@@ -1,5 +1,7 @@
 import utools from "./utools"
 
+export type ActionType = "OPEN_FILE" | "OPEN_FILE_IN_EXPLORER" | "OPEN_DIR" | "OPEN_URL" | "COPY_TO_CLIPBOARD"
+
 declare global {
   interface Window {
     /**
@@ -8,12 +10,8 @@ declare global {
      * 需要在 preload 文件中绑定到 window 中使用
      */
     utools: typeof utools;
-    /**
-     * 打开新的 BrowserWindow
-     * 输入路径直接填 webpackConfig.output.publicPath 内的相对路径(如 ./index.html)
-     * @param {string} p
-     */
-    openPage(p: string): string;
+    convertInput(inputVar: string, outputTemp: string): string;
+    handleInput(inputVar: string, outputTemp: string, type: ActionType, options: { [key in string]: any }): string;
     copyText: typeof utools.copyText;
     showNotification: typeof utools.showNotification;
   }  
