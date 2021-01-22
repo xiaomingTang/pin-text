@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "main": "dist/index.html",
   "preload": "preload/index.js",
-  "description": "将文本固定在桌面上",
+  "description": "根据模板快捷执行相应动作",
   "author": "王小明",
   "homepage": "https://github.com/xiaomingTang/pin-text/tree/next",
   "logo": "images/logo.png",
@@ -11,7 +11,7 @@
     "win32"
   ],
   "development": {
-    "main": "http://localhost:8080/index.html"
+    "main": "dist/index.html"
   },
   "features": [
     {

@@ -26,7 +26,6 @@ const config: webpack.Configuration = {
   entry: {
     // HtmlWebpackPlugin.Options.chunks 需要跟着entry一起改动, 指出该HtmlWebpackPlugin需要的chunks.
     index: ["react-hot-loader/patch", Paths.resolve("src/pages/Index/index.tsx")],
-    pin: ["react-hot-loader/patch", Paths.resolve("src/pages/Pin/index.tsx")],
   },
   output: {
     // 许多插件依赖 publicPath, 且如果为空("" 或 undefined), webpack 会将该参数默认值设置为 "auto" (尤其丧心病狂地, 它竟然不是 "auto/"), 导致一系列的 bug
@@ -50,13 +49,6 @@ const config: webpack.Configuration = {
       title: appName,
       inject: "body",
       chunks: ["index"],
-    }),
-    new HtmlWebpackPlugin({
-      template: path.join(Paths.Public, "template.html"),
-      filename: `pin.html`,
-      title: appName,
-      inject: "body",
-      chunks: ["pin"],
     }),
     new webpack.WatchIgnorePlugin([
       /\.d\.ts$/,

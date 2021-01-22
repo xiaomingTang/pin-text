@@ -11,8 +11,6 @@ declare global {
      */
     utools: typeof utools;
     convertInput(inputVar: string, outputTemp: string): string;
-    handleInput(inputVar: string, outputTemp: string, type: ActionType, options: { [key in string]: any }): string;
-    copyText: typeof utools.copyText;
-    showNotification: typeof utools.showNotification;
+    handleInput(inputVar: string, outputTemp: string, type: ActionType, options?: { [key in string]: any }): string;
   }  
 }

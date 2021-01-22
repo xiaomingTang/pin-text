@@ -1,78 +1,29 @@
 import React, {
-  useCallback, useEffect, useMemo, useState,
+  useCallback, useEffect, useMemo,
 } from "react"
 import {
-  Button, Card, Col, Collapse, Dropdown, Input, List, Menu, Modal, Popover, Radio, Row, Space, Switch, Tooltip,
+  Button, Dropdown, Input, List, message, Popover, Space, Switch,
 } from "antd"
 import {
   CaretDownOutlined, PlusOutlined, QuestionOutlined,
 } from "@ant-design/icons"
-import { MenuProps } from "antd/lib/menu"
 import { useLocalStorage } from "react-use"
 
 import { render } from "@Src/pages/global"
 import { ActionType } from "@Src/@types/preload"
-import { ColProps } from "antd/lib/col"
-import { joinSpace } from "@Src/utils"
+import { PayloadOf } from "@Src/@types/preload/utools-base"
+
+import {
+  Action, actionTypeList, ActionTypeSelector, actionTypeTitleMap, defaultActions,
+} from "./actions"
 
 import Styles from "./index.module.less"
-
-window.convertInput = function convertInput(inputVar, outputTemp) {
-  return outputTemp.replace(/{(INPUT|ENCODE_URI_INPUT|DECODE_URI_INPUT|ENCODE_URI_COMPONENT_INPUT|DECODE_URI_COMPONENT_INPUT)}/g, (match, p1) => {
-    switch (p1) {
-    case "INPUT":
-      return inputVar
-    case "ENCODE_URI_INPUT":
-      return encodeURI(inputVar)
-    case "DECODE_URI_INPUT":
-      return decodeURI(inputVar)
-    case "ENCODE_URI_COMPONENT_INPUT":
-      return encodeURIComponent(inputVar)
-    case "DECODE_URI_COMPONENT_INPUT":
-      return decodeURIComponent(inputVar)
-    default:
-      return match
-    }
-  })
-}
-interface Action {
-  actionType: ActionType;
-  template: string;
-}
-
-const actionTypeTitleMap: { [key in ActionType]: string } = {
-  COPY_TO_CLIPBOARD: "复制到剪贴板",
-  OPEN_FILE: "打开文件(系统默认方式)",
-  OPEN_FILE_IN_EXPLORER: "打开文件(资源管理器)",
-  OPEN_DIR: "打开文件夹",
-  OPEN_URL: "打开超链接",
-}
-
-const actionTypeList: ActionType[] = [
-  "COPY_TO_CLIPBOARD",
-  "OPEN_FILE",
-  "OPEN_FILE_IN_EXPLORER",
-  "OPEN_DIR",
-  "OPEN_URL",
-]
-
-const defaultActions: Action[] = []
-
-function ActionTypeSelector({
-  activeType, ...props
-}: { activeType: ActionType } & MenuProps) {
-  return <Menu {...props} selectedKeys={[activeType]}>
-    {
-      actionTypeList.map((actionType) => (<Menu.Item key={actionType}>
-        {actionTypeTitleMap[actionType]}
-      </Menu.Item>))
-    }
-  </Menu>
-}
 
 const App = () => {
   const [actions = defaultActions, setActions] = useLocalStorage("activeAction", defaultActions)
   const [activeIdx = 0, setActiveIdx] = useLocalStorage("activeIdx", -1)
+
+  const activeAction = useMemo(() => actions[activeIdx] || null, [actions, activeIdx])
 
   const spliceAction = useCallback((start: number, deleteCount: number, ...items: Action[]) => {
     const newActions = [...actions]
@@ -80,13 +31,35 @@ const App = () => {
     setActions(newActions)
   }, [actions, setActions])
 
-  // useEffect(() => {
-  //   window.utools.onPluginEnter((_obj) => {
-  //     // if (_obj.type === "text" && _obj.payload === "配置下一步") {
+  useEffect(() => {
+    const DynamicFeatureName = "dynamic-feature-next:open"
+    if (activeAction) {
+      const actionTitle = actionTypeTitleMap[activeAction.actionType]
+      window.utools.setFeature({
+        code: DynamicFeatureName,
+        explain: actionTitle,
+        cmds: [
+          {
+            type: "over",
+            label: actionTitle,
+          },
+        ],
+      })
+    } else {
+      window.utools.removeFeature(DynamicFeatureName)
+    }
+  }, [activeAction])
 
-  //     // }
-  //   })
-  // }, [])
+  useEffect(() => {
+    window.utools.onPluginEnter((_obj) => {
+      // 有bug, 执行一次命令后, 重新打开配置页时, 配置页白屏, 需要执行一次 resize 才会出现内容
+      window.utools.setExpendHeight(600)
+      const obj = _obj as PayloadOf<"over">
+      if (obj.type === "over" && obj.payload && activeAction) {
+        window.handleInput(obj.payload, activeAction.template, activeAction.actionType)
+      }
+    })
+  }, [activeAction])
 
   return <div className={Styles.wrapper}>
     <List
@@ -117,12 +90,12 @@ const App = () => {
             </Button>
           </Dropdown>
           <Button danger onClick={() => {
+            spliceAction(idx, 1)
             if (idx === activeIdx) {
               setActiveIdx(-1)
             } else if (idx < activeIdx) {
               setActiveIdx(activeIdx - 1)
             }
-            spliceAction(idx, 1)
           }}>
             移除
           </Button>
@@ -140,7 +113,7 @@ const App = () => {
         <Input.TextArea
           placeholder="请输入转换模板"
           className={Styles.textArea}
-          defaultValue={template}
+          value={template}
           onChange={(e) => {
             const target = e.target as HTMLTextAreaElement
             spliceAction(idx, 1, {
