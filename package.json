@@ -7,14 +7,15 @@
     "build": "cross-env NODE_ENV=production TS_NODE_PROJECT=\"config/tsconfig-for-webpack-config.json\" webpack --config config/webpack.config.ts",
     "build:watch": "cross-env NODE_ENV=production TS_NODE_PROJECT=\"config/tsconfig-for-webpack-config.json\" webpack --config config/webpack.config.ts --watch",
     "dev": "cross-env NODE_ENV=development TS_NODE_PROJECT=\"config/tsconfig-for-webpack-config.json\" webpack-dev-server --config config/webpack.dev.config.ts",
-    "start": "yarn run dev"
+    "start": "yarn run dev",
+    "test:preload": "node public/preload/test.js"
   },
   "dependencies": {
     "@ant-design/icons": "^4.3.0",
     "@babel/core": "^7.12.3",
     "@babel/runtime-corejs3": "^7.12.1",
     "@hot-loader/react-dom": "^16.14.0",
-    "antd": "^4.10.2",
+    "antd": "^4.11.2",
     "core-js": "3",
     "electron": "^11.2.0",
     "mdn-polyfills": "^5.20.0",

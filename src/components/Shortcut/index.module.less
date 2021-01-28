@@ -1,0 +1,32 @@
+@body-width: 5em;
+
+.wrapper {
+  display: inline-block;
+  margin: 6px;
+  padding: 6px;
+
+  background-color: #e6e6e6;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #CCE8FF;
+  }
+  &.active {
+    background-color: #98bdea;
+  }  
+}
+
+.body {
+  width: @body-width;
+  height: @body-width;
+  background-size: cover;
+}
+
+.title {
+  width: @body-width;
+  line-height: 2em;
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

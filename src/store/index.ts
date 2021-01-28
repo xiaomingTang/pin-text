@@ -5,18 +5,18 @@ import thunk, { ThunkAction, ThunkDispatch } from "redux-thunk"
 // import logger from "redux-logger"
 
 import {
-  initState as userInitState,
-  reducer as userReducer,
-  Action as UserAction,
-} from "./user"
+  initState as shortcutEditorInitState,
+  reducer as shortcutEditorReducer,
+  Action as shortcutEditorAction,
+} from "./shortcutEditor"
 
 const initState = {
-  user: userInitState,
+  shortcutEditor: shortcutEditorInitState,
 }
 export type State = typeof initState
 
 const reducer = combineReducers({
-  user: userReducer,
+  shortcutEditor: shortcutEditorReducer,
 })
 
 const store = createStore(reducer, initState, applyMiddleware(
@@ -24,7 +24,7 @@ const store = createStore(reducer, initState, applyMiddleware(
   // logger,
 ))
 
-export type SyncAction = UserAction
+export type SyncAction = shortcutEditorAction
 
 export type AsyncAction<R> = ThunkAction<Promise<R>, State, null, SyncAction>
 

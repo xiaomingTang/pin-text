@@ -1,11 +1,11 @@
 {
-  "pluginName": "下一步",
+  "pluginName": "快捷桌面",
   "version": "0.0.1",
   "main": "dist/index.html",
   "preload": "preload/index.js",
-  "description": "根据模板快捷执行相应动作",
+  "description": "快捷访问本地文件、文件夹、超链接",
   "author": "王小明",
-  "homepage": "https://github.com/xiaomingTang/pin-text/tree/next",
+  "homepage": "https://github.com/xiaomingTang/pin-text/tree/qusktop",
   "logo": "images/logo.png",
   "platform": [
     "win32"
@@ -15,10 +15,11 @@
   },
   "features": [
     {
-      "code": "next:config",
-      "explain": "修改配置",
+      "code": "qusktop",
+      "explain": "快捷桌面",
       "cmds": [
-        "配置下一步"
+        "快捷桌面",
+        "qusktop"
       ]
     }
   ]

@@ -128,10 +128,13 @@ export interface User {
 }
 
 interface DbOption {
+  /**
+   * _id 已存在时将会更新, 不存在则将会新建
+   */
   _id: string;
   /**
-   * 不带 _rev 表示创建
-   * 带有 _rev 表示更新
+   * _rev 表示版本号
+   * 更新时必须带有 _rev, 否则更新失败
    */
   _rev?: string;
   data: string;
@@ -139,6 +142,9 @@ interface DbOption {
 
 interface DbReturn {
   id: string;
+  /**
+   * rev 表示版本号
+   */
   rev: string;
   ok: boolean;
 }
