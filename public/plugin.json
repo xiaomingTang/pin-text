@@ -15,11 +15,37 @@
   },
   "features": [
     {
-      "code": "qusktop",
-      "explain": "快捷桌面",
+      "code": "qusktop:main-page",
+      "explain": "打开快捷桌面",
       "cmds": [
         "快捷桌面",
         "qusktop"
+      ]
+    },
+    {
+      "code": "qusktop:append",
+      "explain": "添加到快捷桌面",
+      "cmds": [
+        {
+          "type": "files",
+          "label": "添加该文件的 快捷方式 到 快捷桌面",
+          "fileType": "file",
+          "minLength": 1,
+          "maxLength": 1
+        },
+        {
+          "type": "files",
+          "label": "添加该文件夹的 快捷方式 到 快捷桌面",
+          "fileType": "directory",
+          "minLength": 1,
+          "maxLength": 1
+        },
+        {
+          "type": "regex",
+          "label": "添加该链接的 快捷方式 到 快捷桌面",
+          "match": "/^((https?|ftp|smtp):\\/\\/)(www\\.)?([\\u4e00-\\u9fa5\\w%+-~@]+\\.)+[\\u4e00-\\u9fa5\\w%+-~@]+(\\/[\\u4e00-\\u9fa5\\w%+-~@]+)*\\/?/i",
+          "minLength": 5
+        }
       ]
     }
   ]

@@ -31,19 +31,19 @@ const folderList = [
   "C:/none-exist-path",
 ]
 
+/**
+ * 必须包含完整协议 (如 https)
+ */
 const linkList = [
+  "https://u.tools/docs/developer/api.html?query=1#%E7%B3%BB%E7%BB%9F",
+  "https://www.中文.com/又是中文",
   "https://www.baidu.com/",
   "https://www.baidu.com",
   "http://www.baidu.com/",
   "http://www.baidu.com",
-  "//www.baidu.com",
-  "www.baidu.com",
-  "baidu.com",
-  "baidu.com",
   "https://not-link/",
   "http://not-link",
   "not-link",
-  "www.暂不支持中文链接.com", // 暂不支持中文链接
 ]
 
 function main() {

@@ -13,12 +13,12 @@ declare global {
     /**
      * 根据输入路径判断资源类型(文件/文件夹/超链接/以上都不是)
      */
-    checkShortcutType(str: string): ShortcutType;
+    checkShortcutType(str: string): Exclude<ShortcutType, "GROUP">;
     /**
      * 打开快捷方式
      */
     openShortcut(shortcut: {
-      type: Exclude<ShortcutType, "GROUP">;
+      type: ShortcutType;
       target: string;
     }): void;
   }  

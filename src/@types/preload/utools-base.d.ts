@@ -97,7 +97,7 @@ export interface PayloadMap extends BasePayloadMap {
     isDirectory: boolean;
     name: string;
     path: string;
-  };
+  }[];
   window: {
     id: number;
     class: string;

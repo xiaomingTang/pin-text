@@ -3,6 +3,9 @@ export interface State {
    * contextMenu 为 undefined 则表示菜单未弹出
    */
   contextMenu?: {
+    /**
+     * id 为空字符串表示创建
+     */
     id: string;
     x: number;
     y: number;
@@ -11,7 +14,7 @@ export interface State {
    * selected 为 undefined 表示没有 shortcut 处于选中状态
    */
   selected?: {
-    id: string;
+    idx: number;
   };
   /**
    * editing 为 undefined 表示没有 shortcut 处于编辑状态

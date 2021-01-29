@@ -12,9 +12,9 @@ import { joinSpace } from "@Src/utils"
 
 import bgFile from "@Src/assets/images/shortcut-file.png"
 import bgFolder from "@Src/assets/images/shortcut-folder.png"
-import bgGroup from "@Src/assets/images/shortcut-group.png"
 import bgLink from "@Src/assets/images/shortcut-link.png"
 import bgUnknown from "@Src/assets/images/shortcut-unknown.png"
+import bgGroup from "@Src/assets/images/shortcut-group.png"
 
 import Styles from "./index.module.less"
 
@@ -35,12 +35,12 @@ const bgImageMap: {
 } = {
   FILE: bgFile,
   FOLDER: bgFolder,
-  GROUP: bgGroup,
   LINK: bgLink,
   UNKNOWN: bgUnknown,
+  GROUP: bgGroup,
 }
 
-interface ShortcutProps {
+export interface ShortcutProps {
   id: string;
   type: ShortcutType;
   title: string;
@@ -104,9 +104,8 @@ export function saveShortcutData(shortcut: ShortcutProps) {
   if (!shortcut.id) {
     throw new Error("id 为空")
   }
-  console.log(shortcut.type, shortcut.type === "UNKNOWN")
-  if (shortcut.type === "UNKNOWN") {
-    throw new Error(`不支持该类型, 地址有误: ${shortcut.target}`)
+  if (shortcut.type === "UNKNOWN" || (shortcut.type === "GROUP" && shortcut.id !== "root")) {
+    throw new Error(`不支持该类型, 可能是地址有误: ${shortcut.target}`)
   }
   window.utools.db.put({
     _id: shortcut.id,
@@ -119,6 +118,44 @@ export function saveShortcutData(shortcut: ShortcutProps) {
   })
 }
 
+export function appendIdsTo(parentId: string, ...childIds: string[]) {
+  const availableChildIds = childIds.filter(Boolean)
+  if (!parentId || availableChildIds.length === 0) {
+    return
+  }
+  const parentData = getShortcutData(parentId)
+  if (parentData.type === "GROUP" || parentData.id === "root") {
+    saveShortcutData({
+      ...parentData,
+      type: "GROUP",
+      children: [...parentData.children, ...availableChildIds],
+    })
+  }
+}
+
+export function removeIdsFrom(parentId: string, ...childIds: string[]) {
+  const availableChildIds = childIds.filter(Boolean)
+  if (!parentId || availableChildIds.length === 0) {
+    return
+  }
+  const parentData = getShortcutData(parentId)
+  if (parentData.type === "GROUP") {
+    saveShortcutData({
+      ...parentData,
+      children: parentData.children.filter((id) => !availableChildIds.includes(id)),
+    })
+  }
+}
+
+export function removeIdsFromStorage(...ids: string[]) {
+  ids.filter(Boolean).forEach((id) => {
+    window.utools.db.remove(id)
+  })
+}
+
+/**
+ * @param id 可以为空字符串, 表示新建
+ */
 export function geneOnContextMenu(dispatch: Dispatch<SyncAction>, id: string) {
   return function onContextMenu(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
     e.stopPropagation()
@@ -137,8 +174,9 @@ export function geneOnContextMenu(dispatch: Dispatch<SyncAction>, id: string) {
 
 export function Shortcut({
   active = false,
-  shortcutId, className, ...props
+  idx, shortcutId, className, ...props
 }: ({
+  idx: number;
   shortcutId: string;
   active?: boolean;
 } & HTMLAttributes<HTMLDivElement>)) {
@@ -154,20 +192,17 @@ export function Shortcut({
       type: "@shortcutEditor/set",
       value: {
         selected: {
-          id: shortcutId,
+          idx,
         },
       },
     })
-  }, [dispatch, shortcutId])
+  }, [dispatch, idx])
 
   const onDoubleClick = useCallback(() => {
-    if (data.type === "GROUP") {
-      const newUrl = new URL(window.location.href)
-      newUrl.searchParams.set("id", data.target)
-      window.history.pushState(null, "", newUrl.toString())
-      return
-    }
     try {
+      // 实际上这里是不会抛出错误的
+      // 不知道是 electron 还是 utools 处理的(忘了 electron 是否会处理了)
+      // 但是保险起见, 放在 try catch 里面吧
       window.openShortcut({
         type: data.type,
         target: data.target,
@@ -183,6 +218,7 @@ export function Shortcut({
     onContextMenu={onContextMenu}
     onClick={onClick}
     onDoubleClick={onDoubleClick}
+    title={props.title || data.title}
   >
     <div
       className={Styles.body}
@@ -190,6 +226,6 @@ export function Shortcut({
         backgroundImage,
       }}
     />
-    <div className={Styles.title} title={data.title}>{data.title}</div>
+    <div className={Styles.title}>{data.title}</div>
   </div>
 }

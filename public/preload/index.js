@@ -10,21 +10,25 @@ window.checkShortcutType = checkShortcutType
 window.openShortcut = function openShortcut(shortcut) {
   const { type, target } = shortcut || {}
   const errorMsg = `不受支持的快捷方式: type<${type}>, target<${target}>`
-  if (!(type && target)) {
-    throw new Error(errorMsg)
-  }
-  switch (type) {
+  try {
+    if (!(type && target)) {
+      throw new Error(errorMsg)
+    }
+    switch (type) {
     case "FOLDER":
       utools.shellOpenPath(target)
-      break;
+      break
     case "FILE":
       utools.shellShowItemInFolder(target)
-      break;
+      break
     case "LINK":
       utools.shellOpenExternal(target)
-      break;
+      break
     default:
       throw new Error(errorMsg)
+    }
+    utools.outPlugin()
+  } catch (err) {
+    utools.showNotification(err.message)
   }
-  utools.outPlugin()
 }
