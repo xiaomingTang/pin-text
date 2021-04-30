@@ -58,6 +58,10 @@ export default function PinText({ text: initText = "" }: PinTextProps) {
         </div>
     }
     <Button className={joinSpace("unselectable", Styles.endBtn)} type="primary" onClick={() => {
+      if (!text) {
+        message.error("无法复制空字符串", 1.5)
+        return
+      }
       try {
         if (window.copyText(text)) {
           message.success("成功复制到剪贴板", 0.5)
