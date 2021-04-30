@@ -1,6 +1,6 @@
 **/node_modules/
 **/.git/
-**/.DS_Store/
+**/.DS_Store
 **/yarn-error.log
 /public/dist/
 /config/env.local.ts
