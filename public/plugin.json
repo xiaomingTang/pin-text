@@ -1,6 +1,6 @@
 {
   "pluginName": "钉住",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "dist/index.html",
   "preload": "preload/index.js",
   "description": "将文本固定在桌面上",
@@ -8,7 +8,8 @@
   "homepage": "https://github.com/xiaomingTang/pin-text",
   "logo": "images/logo.png",
   "platform": [
-    "win32"
+    "win32",
+    "darwin"
   ],
   "pluginSetting": {
     "single": false

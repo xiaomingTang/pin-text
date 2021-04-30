@@ -22,16 +22,16 @@
   flex-shrink: 0;
 }
 
-.text {
+.text-wrapper {
   padding: .5em;
   margin: 0 .5em;
   flex-grow: 1;
   flex-shrink: 1;
-  background-color: #dddddd;
-
+  
   &.collapsed {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    background-color: #dddddd;
   }
 }

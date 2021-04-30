@@ -9,7 +9,7 @@ window.openPage = function openPage(p) {
   const tarPath = path.join("./dist", p)
   utools.hideMainWindow()
   utools.createBrowserWindow(tarPath, {
-    title: "钉住",
+    title: "钉住 (展开后可编辑)",
     width: 400,
     height: 100,
     useContentSize: true,
