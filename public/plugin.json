@@ -8,7 +8,7 @@
   "homepage": "https://github.com/xiaomingTang/pin-text/tree/next",
   "logo": "images/logo.png",
   "platform": [
-    "win32"
+    "win32", "darwin"
   ],
   "development": {
     "main": "dist/index.html"
