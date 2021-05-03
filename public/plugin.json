@@ -1,6 +1,6 @@
 {
   "pluginName": "下一步",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "dist/index.html",
   "preload": "preload/index.js",
   "description": "根据模板快捷执行相应动作",
