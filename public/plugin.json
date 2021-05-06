@@ -15,7 +15,8 @@
     "single": false
   },
   "development": {
-    "main": "dist/index.html"
+    "main": "dist/index.html",
+    "customName": "a66bd67b"
   },
   "features": [
     {
